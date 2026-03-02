@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PUMA × Co-Create — A3 Veranderplan</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --red: #E4002B;
+    --dark: #0A0A0A;
+    --gray: #1A1A1A;
+    --mid: #2E2E2E;
+    --light: #F0EDE8;
+    --cream: #FAF8F5;
+    --yellow: #FFD100;
+    --muted: #888;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #E8E5E0;
+    font-family: 'DM Sans', sans-serif;
+    color: var(--dark);
+    font-size: clamp(11px, 1.1vw, 13px);
+    line-height: 1.55;
+  }
+
+  .page {
+    width: min(1200px, 100%);
+    margin: clamp(16px, 3vw, 40px) auto;
+    background: var(--cream);
+  }
+
+  /* HEADER */
+  .header {
+    background: var(--dark);
+    color: white;
+    padding: clamp(20px, 3vw, 36px) clamp(20px, 4vw, 48px) clamp(18px, 2.5vw, 28px);
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: end;
+    gap: 16px;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content:''; position:absolute; top:-60px; right:-60px;
+    width:280px; height:280px;
+    border:60px solid var(--red); border-radius:50%; opacity:.12;
+  }
+  .header::after {
+    content:''; position:absolute; bottom:-40px; right:160px;
+    width:160px; height:160px;
+    border:40px solid var(--yellow); border-radius:50%; opacity:.08;
+  }
+  .brand {
+    font-family:'Bebas Neue',sans-serif;
+    font-size: clamp(36px, 6vw, 72px);
+    letter-spacing:4px; line-height:1; color:white;
+  }
+  .brand span { color:var(--red); }
+  .tagline {
+    font-family:'DM Mono',monospace;
+    font-size: clamp(8px, 0.85vw, 11px);
+    color:var(--muted); letter-spacing:2px; text-transform:uppercase; margin-top:8px;
+  }
+  .header-meta { text-align:right; z-index:1; }
+  .meta-label {
+    font-family:'DM Mono',monospace; font-size:clamp(8px,0.75vw,10px);
+    color:var(--muted); letter-spacing:2px; text-transform:uppercase; margin-bottom:3px;
+  }
+  .meta-value { font-size:clamp(11px,1vw,13px); color:var(--light); font-weight:300; }
+  .red-stripe { height:5px; background:linear-gradient(90deg,var(--red) 60%,var(--yellow) 100%); }
+
+  /* GRID */
+  .grid {
+    display:grid;
+    grid-template-columns: repeat(3,1fr);
+    gap:3px; background:#C0BDB8; margin:3px;
+  }
+  .card { background:var(--cream); padding:clamp(14px,2.5vw,28px) clamp(14px,2.5vw,32px); }
+  .card-dark   { background:var(--gray); color:white; }
+  .card-red    { background:var(--red);  color:white; }
+  .card-yellow { background:var(--yellow); color:var(--dark); }
+  .card-span2  { grid-column:span 2; }
+  .card-span3  { grid-column:span 3; }
+
+  .sec-label {
+    font-family:'DM Mono',monospace; font-size:clamp(8px,0.75vw,9px);
+    letter-spacing:3px; text-transform:uppercase; color:var(--red);
+    margin-bottom:10px; display:flex; align-items:center; gap:8px;
+  }
+  .sec-label.lt { color:rgba(255,255,255,.45); }
+  .sec-label.dk { color:rgba(0,0,0,.5); }
+  .sec-label::before { content:''; display:inline-block; width:18px; height:2px; background:currentColor; }
+
+  .card-title {
+    font-family:'Bebas Neue',sans-serif;
+    font-size:clamp(20px,2.4vw,28px); letter-spacing:2px; line-height:1.05; margin-bottom:12px;
+  }
+  .card-body { font-size:clamp(11px,1vw,12.5px); line-height:1.65; font-weight:300; }
+
+  /* INNOVATION */
+  .inno-head {
+    font-family:'Bebas Neue',sans-serif;
+    font-size:clamp(32px,4.5vw,52px); letter-spacing:3px; line-height:1; margin-bottom:14px;
+  }
+  .inno-head em { color:var(--yellow); font-style:normal; }
+
+  /* PILLARS */
+  .pillars { display:flex; flex-direction:column; gap:9px; margin-top:12px; }
+  .pillar  { display:grid; grid-template-columns:26px 1fr; gap:9px; align-items:start; }
+  .pnum { font-family:'Bebas Neue',sans-serif; font-size:20px; color:var(--red); line-height:1; }
+  .pnum.lt { color:var(--yellow); }
+  .pillar-text strong { font-size:11.5px; font-weight:600; display:block; margin-bottom:2px; }
+  .pillar-text span   { font-size:11px; font-weight:300; opacity:.8; }
+
+  /* KOTTER GRID */
+  .kotter-grid {
+    display:grid;
+    grid-template-columns: repeat(4,1fr);
+    gap:5px; margin-top:14px;
+  }
+  .kphase {
+    padding:12px 14px; cursor:pointer;
+    transition: transform .15s ease, filter .15s ease, box-shadow .15s ease;
+    position:relative;
+    border:2px solid transparent;
+    border-radius:2px;
+  }
+  .kphase:hover {
+    transform:translateY(-3px);
+    filter:brightness(1.1);
+    border-color:rgba(255,255,255,.3);
+    box-shadow: 0 6px 20px rgba(0,0,0,.3);
+    z-index:2;
+  }
+  .kphase:active { transform:scale(.97); }
+  .knum {
+    font-family:'Bebas Neue',sans-serif;
+    font-size:clamp(20px,2.5vw,28px);
+    display:block; line-height:1; margin-bottom:4px;
+  }
+  .kphase strong { display:block; font-size:clamp(10px,0.9vw,11.5px); font-weight:600; margin-bottom:4px; line-height:1.2; }
+  .kphase p { font-size:clamp(9px,0.8vw,10.5px); font-weight:300; line-height:1.45; opacity:.8; }
+  .click-hint {
+    display:block; margin-top:8px;
+    font-family:'DM Mono',monospace; font-size:8.5px; letter-spacing:1.5px;
+    opacity:.4; text-transform:uppercase;
+  }
+
+  .kp0 { background:#252525; color:white; }
+  .kp1 { background:#2f1515; color:white; }
+  .kp2 { background:#3a1a1a; color:white; }
+  .kp3 { background:#4a1f1f; color:white; }
+  .kp4 { background:var(--red); color:white; }
+  .kp5 { background:#c4001f; color:white; }
+  .kp6 { background:var(--yellow); color:var(--dark); }
+  .kp7 { background:#e6bc00; color:var(--dark); }
+
+  /* MODAL */
+  .modal-overlay {
+    display:none; position:fixed; inset:0;
+    background:rgba(0,0,0,.75); z-index:1000;
+    align-items:center; justify-content:center;
+    padding:20px;
+    backdrop-filter: blur(4px);
+  }
+  .modal-overlay.open { display:flex; }
+  .modal {
+    background:var(--gray); color:white;
+    width:min(600px,100%); max-height:85vh; overflow-y:auto;
+    padding:clamp(22px,4vw,40px);
+    position:relative;
+    animation: modalIn .22s cubic-bezier(.22,.61,.36,1);
+  }
+  @keyframes modalIn {
+    from { opacity:0; transform:translateY(16px) scale(.96); }
+    to   { opacity:1; transform:none; }
+  }
+  .modal-close {
+    position:absolute; top:14px; right:16px;
+    background:none; border:none; color:var(--muted);
+    font-size:22px; cursor:pointer; line-height:1;
+    transition:color .15s; padding:4px;
+  }
+  .modal-close:hover { color:white; }
+  .modal-nav {
+    display:flex; justify-content:space-between; align-items:center;
+    margin-bottom:16px;
+  }
+  .modal-nav-btn {
+    background:rgba(255,255,255,.08); border:none; color:rgba(255,255,255,.6);
+    font-family:'DM Mono',monospace; font-size:10px; letter-spacing:1px;
+    padding:6px 12px; cursor:pointer; text-transform:uppercase;
+    transition:background .15s, color .15s;
+  }
+  .modal-nav-btn:hover { background:rgba(255,255,255,.15); color:white; }
+  .modal-nav-btn:disabled { opacity:.2; cursor:default; }
+  .modal-num {
+    font-family:'Bebas Neue',sans-serif;
+    font-size:clamp(48px,8vw,72px);
+    line-height:1; color:var(--red); margin-bottom:2px;
+  }
+  .modal-phase-name {
+    font-family:'Bebas Neue',sans-serif;
+    font-size:clamp(22px,3vw,30px);
+    letter-spacing:2px; line-height:1.1; margin-bottom:14px; color:white;
+  }
+  .modal-phase-name em { color:var(--yellow); font-style:normal; }
+  .modal-progress { margin-bottom:20px; height:3px; background:rgba(255,255,255,.08); }
+  .modal-progress-fill { height:100%; background:linear-gradient(90deg,var(--red),var(--yellow)); transition:width .35s ease; }
+  .modal-body { font-size:clamp(12px,1.1vw,13.5px); font-weight:300; line-height:1.7; color:rgba(255,255,255,.8); }
+  .modal-body strong { color:white; font-weight:600; }
+  .modal-body em { color:var(--yellow); font-style:italic; }
+  .modal-section { margin-top:16px; padding-top:14px; border-top:1px solid rgba(255,255,255,.1); }
+  .modal-section-label {
+    font-family:'DM Mono',monospace; font-size:9px; letter-spacing:2px;
+    text-transform:uppercase; color:var(--yellow); margin-bottom:8px;
+  }
+  .modal-list { list-style:none; display:flex; flex-direction:column; gap:6px; }
+  .modal-list li { display:flex; gap:10px; font-size:12.5px; }
+  .modal-list li::before { content:'→'; color:var(--red); flex-shrink:0; margin-top:1px; }
+  .modal-tag {
+    display:inline-block; background:rgba(255,255,255,.07);
+    font-family:'DM Mono',monospace; font-size:9.5px; padding:4px 10px;
+    letter-spacing:1px; margin-right:5px; margin-top:5px;
+  }
+
+  /* POPULATION */
+  .pop-grid { display:grid; grid-template-columns:1fr 1fr; gap:7px; margin-top:12px; }
+  .pop-item { padding:9px 12px; background:rgba(0,0,0,.07); border-left:3px solid var(--red); }
+  .pop-item.yl { border-color:rgba(0,0,0,.3); }
+  .pop-stat { font-family:'Bebas Neue',sans-serif; font-size:clamp(20px,2.5vw,26px); color:var(--red); line-height:1; }
+  .pop-stat.dk { color:var(--dark); }
+  .pop-desc { font-size:10.5px; font-weight:300; opacity:.75; margin-top:2px; }
+
+  /* LECT BOX */
+  .lect-box { margin-top:12px; border:1.5px solid rgba(255,255,255,.15); padding:12px 14px; }
+  .lect-name { font-family:'Bebas Neue',sans-serif; font-size:17px; color:var(--yellow); letter-spacing:1px; margin-bottom:6px; }
+
+  /* RESIST */
+  .resist-list { margin-top:12px; display:flex; flex-direction:column; gap:7px; }
+  .resist-item { display:flex; gap:9px; align-items:start; }
+  .resist-icon {
+    width:20px; height:20px; background:rgba(0,0,0,.1);
+    border-radius:50%; display:flex; align-items:center; justify-content:center;
+    font-size:10px; flex-shrink:0; margin-top:1px;
+  }
+  .resist-text strong { font-weight:600; display:block; font-size:11px; }
+  .resist-text { font-size:11px; font-weight:300; line-height:1.5; }
+
+  /* ASSUMPTION */
+  .assumption { margin-top:12px; padding:11px 13px; background:rgba(255,209,0,.12); border-left:3px solid var(--yellow); }
+  .assumption.dk { background:rgba(0,0,0,.2); border-color:rgba(255,255,255,.15); }
+  .assumption p { font-size:11px; font-style:italic; line-height:1.55; font-weight:300; }
+
+  hr.div { border:none; border-top:1px solid rgba(255,255,255,.08); margin:12px 0; }
+  hr.div-light { border:none; border-top:1px solid #ddd; margin:12px 0; }
+
+  /* FOOTER */
+  .footer {
+    background:var(--dark); color:white;
+    padding:clamp(14px,2vw,20px) clamp(16px,3.5vw,48px);
+    display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center;
+    gap:12px; margin:3px;
+  }
+  .footer-left {
+    font-family:'DM Mono',monospace; font-size:clamp(8px,.8vw,10px);
+    color:var(--muted); letter-spacing:2px; text-transform:uppercase;
+  }
+  .footer-right { display:flex; flex-wrap:wrap; gap:clamp(10px,2vw,28px); }
+  .footer-tag { font-family:'DM Mono',monospace; font-size:clamp(8px,.8vw,10px); color:var(--muted); letter-spacing:1px; }
+  .footer-tag span { color:var(--red); }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    .grid { grid-template-columns:1fr 1fr; }
+    .card-span2 { grid-column:span 2; }
+    .card-span3 { grid-column:span 2; }
+    .kotter-grid { grid-template-columns:repeat(2,1fr); }
+  }
+  @media (max-width: 600px) {
+    .grid { grid-template-columns:1fr; }
+    .card-span2 { grid-column:span 1; }
+    .card-span3 { grid-column:span 1; }
+    .header { grid-template-columns:1fr; }
+    .header-meta { text-align:left; }
+    .kotter-grid { grid-template-columns:1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div>
+      <div class="brand">PUMA <span>×</span> CO-CREATE</div>
+      <div class="tagline">Groepsopdracht Deel 1 — Veranderen als Bedrijfskundige — Fontys Hogescholen</div>
+    </div>
+    <div class="header-meta">
+      <div class="meta-label">Lectoraat</div>
+      <div class="meta-value">Meervoudige Waardecreatie</div>
+      <div style="margin-top:10px" class="meta-label">Studiejaar</div>
+      <div class="meta-value">2025–2026</div>
+      <div style="margin-top:10px" class="meta-label">Fase</div>
+      <div class="meta-value">Deel 1 — Week 1–4</div>
+    </div>
+  </div>
+  <div class="red-stripe"></div>
+
+  <!-- MAIN GRID -->
+  <div class="grid">
+
+    <!-- 01 INNOVATIE -->
+    <div class="card card-dark card-span2">
+      <div class="sec-label lt">01 — Innovatie-idee</div>
+      <div class="inno-head">PUMA<br><em>CROWD</em>LAB</div>
+      <div class="card-body" style="color:rgba(255,255,255,.75); max-width:540px;">
+        Puma lanceert een open co-creatieplatform waarbij de community — fans, atleten en designers — actief meedenkt, ontwerpt en beslist over nieuwe productlijnen. Geselecteerde ontwerpen worden daadwerkelijk geproduceerd. De ontwerper ontvangt royalties en naamsvermelding.
+      </div>
+      <div class="pillars" style="margin-top:18px;">
+        <div class="pillar">
+          <div class="pnum lt">1</div>
+          <div class="pillar-text">
+            <strong style="color:white;">Ontwerpen & Stemmen</strong>
+            <span style="color:rgba(255,255,255,.6);">Gebruikers uploaden designs via app of web; community stemt. Winnende ontwerpen gaan in productie.</span>
+          </div>
+        </div>
+        <div class="pillar">
+          <div class="pnum lt">2</div>
+          <div class="pillar-text">
+            <strong style="color:white;">Royalty-model</strong>
+            <span style="color:rgba(255,255,255,.6);">Ontwerper ontvangt % per verkocht paar — sociale én economische waarde gecombineerd.</span>
+          </div>
+        </div>
+        <div class="pillar">
+          <div class="pnum lt">3</div>
+          <div class="pillar-text">
+            <strong style="color:white;">Meervoudige Waarde</strong>
+            <span style="color:rgba(255,255,255,.6);">Sociaal (inclusie), economisch (loyaliteit + marge), cultureel (co-ownership van het merk).</span>
+          </div>
+        </div>
+      </div>
+      <div class="assumption dk" style="margin-top:18px;">
+        <p>💡 Aanname: Puma's doelgroep (16–35 jr) heeft intrinsieke motivatie om bij te dragen aan merkcreatie — mits de drempel laag is en de beloning zichtbaar.</p>
+      </div>
+    </div>
+
+    <!-- 02 ORGANISATIE -->
+    <div class="card">
+      <div class="sec-label">02 — Organisatie & Aanleiding</div>
+      <div class="card-title">PUMA SE</div>
+      <div class="card-body">
+        Puma is een wereldwijd sportmerk (€8,6 mrd omzet, 20.000+ medewerkers). De aanleiding: <strong>dalende merkrelevantie bij Gen Z</strong> en groeiende verwachting van participatief merkeigenaarschap.<br><br>
+        Consumenten willen geen passieve koper zijn — ze willen mede-eigenaar zijn van de cultuur rondom het merk.
+      </div>
+      <hr class="div-light">
+      <div class="sec-label" style="margin-bottom:8px;">Type verandering</div>
+      <div style="display:flex;gap:5px;flex-wrap:wrap;">
+        <span style="background:var(--red);color:white;font-size:9px;padding:4px 9px;font-family:'DM Mono',monospace;letter-spacing:1px;">TRANSFORMATIEF</span>
+        <span style="background:var(--dark);color:white;font-size:9px;padding:4px 9px;font-family:'DM Mono',monospace;letter-spacing:1px;">GEPLAND+EMERGENT</span>
+        <span style="background:#777;color:white;font-size:9px;padding:4px 9px;font-family:'DM Mono',monospace;letter-spacing:1px;">BUITEN→BINNEN</span>
+      </div>
+      <div class="assumption" style="margin-top:12px;">
+        <p>De verandering raakt merkstrategie, productinnovatie én bedrijfscultuur — niet puur technisch.</p>
+      </div>
+    </div>
+
+    <!-- 03 KOTTER — full width -->
+    <div class="card card-dark card-span3">
+      <div class="sec-label lt">03 — Veranderkundig Model</div>
+      <div style="display:flex;align-items:baseline;gap:20px;flex-wrap:wrap;margin-bottom:6px;">
+        <div class="card-title" style="color:white;margin-bottom:0;">Kotter's 8-Fasen Model</div>
+        <span style="font-family:'DM Mono',monospace;font-size:9px;color:rgba(255,255,255,.3);letter-spacing:2px;text-transform:uppercase;">↓ klik op een fase voor uitgebreide uitleg</span>
+      </div>
+      <div class="card-body" style="color:rgba(255,255,255,.6);margin-bottom:16px;max-width:700px;">
+        Kotter's model is gekozen omdat de verandering breed draagvlak vereist — intern bij medewerkers én extern bij de community. Het model stuurt stap voor stap op urgentie, coalitie-opbouw, duidelijke visie, communicatie, het wegnemen van obstakels, quick wins, versnelling en uiteindelijk culturele verankering.
+      </div>
+
+      <div class="kotter-grid">
+        <div class="kphase kp0" onclick="openModal(0)">
+          <span class="knum">01</span>
+          <strong>Creëer urgentiegevoel</strong>
+          <p>Maak de noodzaak voor verandering zichtbaar en voelbaar binnen de gehele organisatie.</p>
+          <span class="click-hint">▸ uitgebreide uitleg</span>
+        </div>
+        <div class="kphase kp1" onclick="openModal(1)">
+          <span class="knum">02</span>
+          <strong>Bouw een leidende coalitie</strong>
+          <p>Stel een kernteam samen met voldoende macht, diversiteit en geloofwaardigheid.</p>
+          <span class="click-hint">▸ uitgebreide uitleg</span>
+        </div>
+        <div class="kphase kp2" onclick="openModal(2)">
+          <span class="knum">03</span>
+          <strong>Ontwikkel visie & strategie</strong>
+          <p>Formuleer een heldere, inspirerende richting voor CrowdLab met concrete mijlpalen.</p>
+          <span class="click-hint">▸ uitgebreide uitleg</span>
+        </div>
+        <div class="kphase kp3" onclick="openModal(3)">
+          <span class="knum">04</span>
+          <strong>Communiceer de visie</strong>
+          <p>Zorg dat iedereen het verhaal begrijpt, gelooft en actief doorvertelt.</p>
+          <span class="click-hint">▸ uitgebreide uitleg</span>
+        </div>
+        <div class="kphase kp4" onclick="openModal(4)">
+          <span class="knum">05</span>
+          <strong>Verwijder obstakels</strong>
+          <p>Ruim structurele, procedurele en menselijke barrières uit de weg.</p>
+          <span class="click-hint">▸ uitgebreide uitleg</span>
+        </div>
+        <div class="kphase kp5" onclick="openModal(5)">
+          <span class="knum">06</span>
+          <strong>Genereer quick wins</strong>
+          <p>Boek snel zichtbare successen om momentum en vertrouwen op te bouwen.</p>
+          <span class="click-hint">▸ uitgebreide uitleg</span>
+        </div>
+        <div class="kphase kp6" onclick="openModal(6)">
+          <span class="knum">07</span>
+          <strong>Consolideer & versnel</strong>
+          <p>Gebruik het momentum om dieper en breder te veranderen — geen rustpunt.</p>
+          <span class="click-hint">▸ uitgebreide uitleg</span>
+        </div>
+        <div class="kphase kp7" onclick="openModal(7)">
+          <span class="knum">08</span>
+          <strong>Verankering in cultuur</strong>
+          <p>Co-creatie wordt een vast onderdeel van Puma's organisatie-DNA en merkidentiteit.</p>
+          <span class="click-hint">▸ uitgebreide uitleg</span>
+        </div>
+      </div>
+
+      <hr class="div" style="margin-top:16px;">
+      <div class="card-body" style="color:rgba(255,255,255,.5);font-size:11px;">
+        <strong style="color:rgba(255,255,255,.8);">Onderbouwing keuze:</strong> Kotter (1996, <em>Leading Change</em>) betoogt dat de meeste veranderingen mislukken doordat ze stappen overslaan. Bij Puma CrowdLab is dit risico reëel: zonder urgentie geen budgetgoedkeuring, zonder coalitie geen intern draagvlak, zonder quick wins geen vertrouwen. Het sequentiële karakter van Kotter past bij de schaalgrootte van Puma als internationaal merk.
+      </div>
+    </div>
+
+    <!-- 04 LECTORAAT -->
+    <div class="card card-red">
+      <div class="sec-label lt">04 — Lectoraat & Onderbouwing</div>
+      <div class="card-title">Meervoudige<br>Waardecreatie</div>
+      <div class="card-body" style="color:rgba(255,255,255,.85);">
+        Het lectoraat (Fontys EGO) onderzoekt hoe organisaties gelijktijdig economische, sociale en culturele waarde creëren — het <strong>Triple Value-model</strong>.
+      </div>
+      <div class="lect-box">
+        <div class="lect-name">Drie Waarde-assen</div>
+        <div class="pillars">
+          <div class="pillar">
+            <div class="pnum" style="color:white;font-size:17px;">E</div>
+            <div class="pillar-text">
+              <strong style="color:white;font-size:10.5px;">Economisch</strong>
+              <span style="color:rgba(255,255,255,.65);font-size:10.5px;">Royalties, hogere marge, lagere marketingkosten via community-driven productie.</span>
+            </div>
+          </div>
+          <div class="pillar">
+            <div class="pnum" style="color:white;font-size:17px;">S</div>
+            <div class="pillar-text">
+              <strong style="color:white;font-size:10.5px;">Sociaal</strong>
+              <span style="color:rgba(255,255,255,.65);font-size:10.5px;">Inclusie van diverse stemmen, talentherkenning buiten traditionele modewereld.</span>
+            </div>
+          </div>
+          <div class="pillar">
+            <div class="pnum" style="color:white;font-size:17px;">C</div>
+            <div class="pillar-text">
+              <strong style="color:white;font-size:10.5px;">Cultureel</strong>
+              <span style="color:rgba(255,255,255,.65);font-size:10.5px;">Co-ownership versterkt authenticiteit en Gen Z-loyaliteit structureel.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 05 POPULATIE -->
+    <div class="card card-yellow">
+      <div class="sec-label dk">05 — Context & Populatie</div>
+      <div class="card-title">Wie raakt<br>de verandering?</div>
+      <div class="pop-grid">
+        <div class="pop-item">
+          <div class="pop-stat">~60%</div>
+          <div class="pop-desc">Medewerkers in marketing & product (18–45 jr)</div>
+        </div>
+        <div class="pop-item yl">
+          <div class="pop-stat dk">Gen Z</div>
+          <div class="pop-desc">Primaire externe doelgroep platform (16–30 jr)</div>
+        </div>
+        <div class="pop-item">
+          <div class="pop-stat">M/V</div>
+          <div class="pop-desc">Gemixte community; vrouwen ondervertegenwoordigd in sportdesign</div>
+        </div>
+        <div class="pop-item yl">
+          <div class="pop-stat dk">MBO+</div>
+          <div class="pop-desc">Ervaringsniveau variërend — laagdrempelige tool vereist</div>
+        </div>
+      </div>
+      <div style="margin-top:14px;" class="sec-label dk">Verwachte weerstand</div>
+      <div class="resist-list">
+        <div class="resist-item">
+          <div class="resist-icon">⚠</div>
+          <div class="resist-text"><strong>Merkcontrole-angst</strong>Brand managers vrezen verlies van identiteitscontrole bij open community-input.</div>
+        </div>
+        <div class="resist-item">
+          <div class="resist-icon">⚠</div>
+          <div class="resist-text"><strong>Legale complexiteit</strong>IP-rechten & royaltyafspraken vragen nieuwe interne structuren en contracten.</div>
+        </div>
+        <div class="resist-item">
+          <div class="resist-icon">⚠</div>
+          <div class="resist-text"><strong>Kwaliteitsrisico</strong>Angst dat community-designs Puma's premium-imago ondermijnen.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 06 AANNAMES -->
+    <div class="card">
+      <div class="sec-label">06 — Aannames & Risico's</div>
+      <div class="card-title">Kritische<br>Aannames</div>
+      <div class="pillars" style="margin-top:0;">
+        <div class="pillar">
+          <div class="pnum">A</div>
+          <div class="pillar-text">
+            <strong>Community-motivatie</strong>
+            <span>Gen Z heeft voldoende intrinsieke motivatie om te ontwerpen — mits erkenning en royalties gegarandeerd zijn.</span>
+          </div>
+        </div>
+        <div class="pillar">
+          <div class="pnum">B</div>
+          <div class="pillar-text">
+            <strong>Interne capaciteit</strong>
+            <span>Puma heeft voldoende productiecapaciteit en flexibiliteit om externe designs te produceren naast reguliere lijnen.</span>
+          </div>
+        </div>
+        <div class="pillar">
+          <div class="pnum">C</div>
+          <div class="pillar-text">
+            <strong>Merkbescherming</strong>
+            <span>Heldere co-creatierichtlijnen beschermen de merkidentiteit zonder de creativiteit van de community te beknotten.</span>
+          </div>
+        </div>
+        <div class="pillar">
+          <div class="pnum">D</div>
+          <div class="pillar-text">
+            <strong>Leiderschapsdraagvlak</strong>
+            <span>Top management steunt het platform actief — zonder CEO-endorsement is Kotter's coalitie niet mogelijk.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div class="footer-left">A3 Groepsproduct — Deel 1 — Veranderen als Bedrijfskundige</div>
+    <div class="footer-right">
+      <div class="footer-tag">Bedrijf: <span>Puma SE</span></div>
+      <div class="footer-tag">Model: <span>Kotter (8 fasen)</span></div>
+      <div class="footer-tag">Lectoraat: <span>Meervoudige Waardecreatie</span></div>
+      <div class="footer-tag">Status: <span>Voorlopig ontwerp</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeIfOutside(event)">
+  <div class="modal" id="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-nav">
+      <button class="modal-nav-btn" id="btnPrev" onclick="navigate(-1)">← Vorige fase</button>
+      <span style="font-family:'DM Mono',monospace;font-size:9px;color:rgba(255,255,255,.3);letter-spacing:2px;" id="navCounter"></span>
+      <button class="modal-nav-btn" id="btnNext" onclick="navigate(1)">Volgende fase →</button>
+    </div>
+    <div class="modal-num" id="mNum"></div>
+    <div class="modal-phase-name" id="mName"></div>
+    <div class="modal-progress"><div class="modal-progress-fill" id="mProgress"></div></div>
+    <div class="modal-body" id="mBody"></div>
+  </div>
+</div>
+
+<script>
+let currentPhase = 0;
+
+const phases = [
+  {
+    num:"01", name:"Creëer <em>Urgentiegevoel</em>", progress:12.5,
+    body:`<p><strong>Doel:</strong> Medewerkers en management van Puma moeten <em>voelen</em> dat verandering nu noodzakelijk is. Zonder urgentie is er geen bereidheid om te bewegen — mensen veranderen pas als het alternatief pijnlijker is dan veranderen zelf.</p>
+    <div class="modal-section">
+      <div class="modal-section-label">Toegepast op Puma CrowdLab</div>
+      <ul class="modal-list">
+        <li>Presenteer interne data: Puma verliest marktaandeel bij Gen Z ten opzichte van Nike en New Balance.</li>
+        <li>Toon consumentenonderzoek: 73% van Gen Z wil merken actief meevormgeven (Edelman Trust Barometer).</li>
+        <li>Laat zien hoe concurrenten (Nike By You, Adidas Design Studio) al succesvol co-creatie inzetten.</li>
+        <li>Organiseer een "burning platform"-sessie met directie en merkteam om de urgentie tastbaar te maken.</li>
+        <li>Gebruik social media-data: hoeveel fan-redesigns van Puma-schoenen circuleren al organisch online?</li>
+      </ul>
+    </div>
+    <div class="modal-section">
+      <div class="modal-section-label">Weerstand & aanpak</div>
+      <p>Risico: medewerkers zien de urgentie niet als reëel. Aanpak: gebruik concrete klantquotes, social listening-data en een benchmark met concurrenten om het probleem onmiskenbaar te maken. Maak de kosten van <em>niet</em>-veranderen explicieter dan de kosten van veranderen.</p>
+    </div>
+    <div class="modal-section">
+      <div class="modal-section-label">Verband met Kotter</div>
+      <p>Kotter stelt dat minimaal 75% van het management overtuigd moet zijn van de urgentie voordat fase 2 kan starten. Zonder deze basis zullen latere fasen structureel ondermijnd worden door passieve sabotage of onverschilligheid.</p>
+    </div>
+    <div class="modal-section"><div class="modal-section-label">Tags</div><span class="modal-tag">INTERN</span><span class="modal-tag">BEWUSTWORDING</span><span class="modal-tag">FASE 1 VAN 8</span></div>`
+  },
+  {
+    num:"02", name:"Bouw een <em>Leidende Coalitie</em>", progress:25,
+    body:`<p><strong>Doel:</strong> Een divers, invloedrijk kernteam dat de verandering trekt. Kotter benadrukt dat verandering nooit door één persoon wordt gedragen — het vraagt een coalitie met voldoende formele macht, expertise en geloofwaardigheid.</p>
+    <div class="modal-section">
+      <div class="modal-section-label">Samenstelling kernteam CrowdLab</div>
+      <ul class="modal-list">
+        <li><strong>CMO of Brand Director</strong> — strategische legitimiteit en eindverantwoordelijkheid voor merkbewaking.</li>
+        <li><strong>Head of Product Innovation</strong> — technische uitvoerbaarheid van ontwerpselectie en productieintegratie.</li>
+        <li><strong>Community Manager</strong> — connectie met de externe doelgroep, influencer netwerk en platformdynamiek.</li>
+        <li><strong>Legal Counsel</strong> — IP-rechten, royaltycontracten en aansprakelijkheid bij community-inzendingen.</li>
+        <li><strong>2–3 interne Gen Z-medewerkers</strong> — ambassadeurs die de doelgroep representeren en intern vertrouwen wekken.</li>
+      </ul>
+    </div>
+    <div class="modal-section">
+      <div class="modal-section-label">Weerstand & aanpak</div>
+      <p>Risico: senior management wil controle houden en blokkeert besluitvorming. Aanpak: geef hen een expliciete governance-rol binnen het platform (bijv. final approval voor productie) zodat ze eigenaarschap ervaren zonder de community te beknotten.</p>
+    </div>
+    <div class="modal-section">
+      <div class="modal-section-label">Verband met Meervoudige Waardecreatie</div>
+      <p>De coalitie moet zelf de drie waarde-assen representeren: economisch (business), sociaal (community), cultureel (merk). Zo is meervoudige waarde geborgd in de besluitvormingsstructuur zelf.</p>
+    </div>
+    <div class="modal-section"><div class="modal-section-label">Tags</div><span class="modal-tag">COALITIE</span><span class="modal-tag">LEIDERSCHAP</span><span class="modal-tag">INTERN</span></div>`
+  },
+  {
+    num:"03", name:"Ontwikkel <em>Visie & Strategie</em>", progress:37.5,
+    body:`<p><strong>Doel:</strong> Een heldere, memorabele visie die richting geeft aan alle beslissingen rondom CrowdLab. Zonder visie wordt verandering een chaotische reeks losse acties zonder samenhang of duurzaamheid.</p>
+    <div class="modal-section">
+      <div class="modal-section-label">Visie voor Puma CrowdLab</div>
+      <p style="margin-bottom:10px; font-style:italic; color:rgba(255,255,255,.9);">"Puma wordt het eerste grote sportmerk waarbij de community mede-eigenaar is van het design — en daar ook financieel van profiteert."</p>
+      <ul class="modal-list">
+        <li><strong>Korte termijn (0–6 mnd):</strong> Platform bouwen en intern beta-testen met 50 medewerkers en 200 externe testers.</li>
+        <li><strong>Middellange termijn (6–18 mnd):</strong> Publieke pilotlancering met 3 community-designs in gelimiteerde productie.</li>
+        <li><strong>Lange termijn (18 mnd+):</strong> Jaarlijkse CrowdLab-collectie als vast onderdeel van Puma's productlijn.</li>
+      </ul>
+    </div>
+    <div class="modal-section">
+      <div class="modal-section-label">Koppeling aan Meervoudige Waardecreatie</div>
+      <p>De strategie combineert bewust de drie waarde-assen: economische waarde (marge, royalties), sociale waarde (inclusie, talentontwikkeling) en culturele waarde (community-ownership). Dit sluit direct aan bij het lectoraatsonderzoek van Fontys EGO over duurzame bedrijfsmodellen.</p>
+    </div>
+    <div class="modal-section"><div class="modal-section-label">Tags</div><span class="modal-tag">VISIE</span><span class="modal-tag">STRATEGIE</span><span class="modal-tag">RICHTING</span></div>`
+  },
+  {
+    num:"04", name:"Communiceer <em>de Visie</em>", progress:50,
+    body:`<p><strong>Doel:</strong> De visie leven inblazen bij alle betrokkenen — intern én extern. Kotter stelt dat <em>"undercommunication"</em> de meest voorkomende en fatale fout is in verandertrajecten: de visie moet tien keer vaker gecommuniceerd worden dan je intuïtief zou denken.</p>
+    <div class="modal-section">
+      <div class="modal-section-label">Interne communicatie</div>
+      <ul class="modal-list">
+        <li>Kick-off sessie voor alle merkteams met een CrowdLab-launch deck en een live Q&A met de coalitie.</li>
+        <li>Wekelijkse update via intern Slack-kanaal: voortgang, community-ontwerpen, stemresultaten.</li>
+        <li>Coalitieleden worden actief ingezet als storytellers in teamvergaderingen en boardroom-updates.</li>
+        <li>Interne FAQ-pagina: wat betekent CrowdLab voor mijn rol? Wat verandert er aan mijn werk?</li>
+      </ul>
+    </div>
+    <div class="modal-section">
+      <div class="modal-section-label">Externe communicatie</div>
+      <ul class="modal-list">
+        <li>Teasercampagne op social media: <em>"Jij ontwerpt. Wij produceren."</em></li>
+        <li>Samenwerking met micro-influencers (10k–100k volgers) in sneaker- en streetwear-community.</li>
+        <li>Transparantie over het royalty-model als onderscheidend USP in alle campagne-uitingen.</li>
+        <li>Press release bij eerste royalty-uitbetaling: bewijs dat het systeem echt werkt.</li>
+      </ul>
+    </div>
+    <div class="modal-section"><div class="modal-section-label">Tags</div><span class="modal-tag">COMMUNICATIE</span><span class="modal-tag">INTERN</span><span class="modal-tag">EXTERN</span></div>`
+  },
+  {
+    num:"05", name:"Verwijder <em>Obstakels</em>", progress:62.5,
+    body:`<p><strong>Doel:</strong> Structurele, procedurele en menselijke barrières identificeren en wegnemen. Kotter stelt: obstakels die niet actief worden aangepakt, ondermijnen het vertrouwen in de verandering — mensen concluderen dat de coalitie de woorden niet waarmaakt.</p>
+    <div class="modal-section">
+      <div class="modal-section-label">Specifieke obstakels bij Puma CrowdLab</div>
+      <ul class="modal-list">
+        <li><strong>IP & juridisch:</strong> Royaltycontracten en eigendomsrechten van ingediende designs zijn vooraf niet geregeld → nieuwe standaardcontracten opstellen met Legal; community stemt in bij upload.</li>
+        <li><strong>Merkcontrole:</strong> Brand guidelines zijn te rigide voor open input → flexibele co-creatierichtlijnen opstellen die kernwaarden beschermen maar creatieve ruimte laten.</li>
+        <li><strong>Technisch:</strong> Puma's productieproces is niet ingericht op externe designs → pilot via contract-productie met één specifieke fabriekspartner.</li>
+        <li><strong>Mindset interne designers:</strong> Interne ontwerpers voelen bedreiging → positioneer CrowdLab expliciet als aanvulling, niet als vervanging van intern talent.</li>
+        <li><strong>Budgetgoedkeuring:</strong> Geen apart budget voor het platform → onderbouw ROI met benchmark-data van Nike By You (30% hogere klantloyaliteit).</li>
+      </ul>
+    </div>
+    <div class="modal-section"><div class="modal-section-label">Tags</div><span class="modal-tag">BARRIÈRES</span><span class="modal-tag">STRUCTUUR</span><span class="modal-tag">WEERSTAND</span></div>`
+  },
+  {
+    num:"06", name:"Genereer <em>Quick Wins</em>", progress:75,
+    body:`<p><strong>Doel:</strong> Snel zichtbare resultaten boeken om twijfelaars te overtuigen en het enthousiasme te versterken. Quick wins legitimeren de verandering bij mensen die eerst de bewijslast willen zien voordat ze meedoen.</p>
+    <div class="modal-section">
+      <div class="modal-section-label">Geplande quick wins CrowdLab</div>
+      <ul class="modal-list">
+        <li><strong>Maand 2:</strong> Intern designwedstrijdje met 50 medewerkers — winnend design wordt op kantoor tentoongesteld. Klein, maar zichtbaar bewijs van de aanpak.</li>
+        <li><strong>Maand 3:</strong> Publieke Instagram-designchallenge met 500+ inzendingen als bewijs van community-vraag.</li>
+        <li><strong>Maand 6:</strong> Produceer 3 winnende designs in een gelimiteerde oplage van 500 paar — direct uitverkocht als einddoel.</li>
+        <li><strong>Maand 8:</strong> Toon eerste royalty-uitbetaling aan ontwerpers via press release en social content. Maakt abstracte belofte concreet en geloofwaardig.</li>
+        <li><strong>Boardroom:</strong> Presenteer engagement-KPI's (inzendingen, clicks, community-groei) om intern draagvlak voor fase 7 te verkrijgen.</li>
+      </ul>
+    </div>
+    <div class="modal-section">
+      <div class="modal-section-label">Valkuil</div>
+      <p>Kotter waarschuwt: quick wins die mislukken zijn erger dan geen quick wins. Kies bewust kleine, beheersbare successen met &gt;90% slaagkans — pas daarna opschalen.</p>
+    </div>
+    <div class="modal-section"><div class="modal-section-label">Tags</div><span class="modal-tag">MOMENTUM</span><span class="modal-tag">BEWIJS</span><span class="modal-tag">VERTROUWEN</span></div>`
+  },
+  {
+    num:"07", name:"Consolideer & <em>Versnel</em>", progress:87.5,
+    body:`<p><strong>Doel:</strong> Gebruik het momentum van de quick wins om de verandering te verdiepen en te verbreden. Dit is het moment om groter te denken — maar Kotter waarschuwt uitdrukkelijk: niet te vroeg vieren.</p>
+    <div class="modal-section">
+      <div class="modal-section-label">Consolidatie bij Puma CrowdLab</div>
+      <ul class="modal-list">
+        <li>Uitbreiding van 3 designs naar een volwaardige jaarlijkse CrowdLab-collectie (15–25 designs).</li>
+        <li>Productcategorie uitbreiden: van schoenen naar kleding, bags en accessoires.</li>
+        <li>Interne teams (marketing, product, legal) herorganiseren rondom het co-creatieproces als vaste werkwijze.</li>
+        <li>Nieuwe partnerships met designopleidingen (ArtEZ, Design Academy Eindhoven) als talentpipeline.</li>
+        <li>Data-analyse: welke designs slaan aan, bij welk segment, in welk seizoen? Dit inzicht stuurt de volgende ronde.</li>
+        <li>Internationale uitrol: na Nederland ook launch in Duitsland en UK als groeimarkten voor Gen Z streetwear.</li>
+      </ul>
+    </div>
+    <div class="modal-section">
+      <div class="modal-section-label">Valkuil</div>
+      <p>De meest voorkomende fout in deze fase: te snel succes vieren en de urgentie laten wegzakken. Blijf de noodzaak communiceren ook als het goed gaat — consolidatie is geen eindpunt maar een versnelling.</p>
+    </div>
+    <div class="modal-section"><div class="modal-section-label">Tags</div><span class="modal-tag">UITBREIDING</span><span class="modal-tag">MOMENTUM</span><span class="modal-tag">SCHALING</span></div>`
+  },
+  {
+    num:"08", name:"Verankering in <em>Cultuur</em>", progress:100,
+    body:`<p><strong>Doel:</strong> Co-creatie wordt geen project meer, maar een vast onderdeel van hoe Puma werkt en denkt. Kotter stelt: <em>"de verandering is pas geslaagd als het nieuwe gedrag de norm is geworden"</em> — niet als de structuur klaar is, maar als de cultuur het heeft geïnternaliseerd.</p>
+    <div class="modal-section">
+      <div class="modal-section-label">Culturele verankering bij Puma</div>
+      <ul class="modal-list">
+        <li>CrowdLab opnemen in het jaarlijkse productplanning-proces als vaste lijn naast reguliere collecties.</li>
+        <li>KPI's en bonusstructuren voor teamleden koppelen aan community-engagement en co-creatieresultaten.</li>
+        <li>Onboarding nieuwe medewerkers: CrowdLab als kernwaarde van Puma's merkidentiteit — vanaf dag 1.</li>
+        <li>Jaarlijkse CrowdLab Award: community-ontwerper van het jaar, met media-aandacht en interne viering.</li>
+        <li>Rapporteer in het jaarverslag over meervoudige waarde via CrowdLab: economisch, sociaal én cultureel.</li>
+        <li>Leiderschapsontwikkeling: managers worden getraind op co-creatief leiderschap als Puma-competentie.</li>
+      </ul>
+    </div>
+    <div class="modal-section">
+      <div class="modal-section-label">Verbinding met Lectoraat Meervoudige Waardecreatie</div>
+      <p>Duurzame meervoudige waardecreatie is alleen mogelijk als het in de organisatiecultuur is verankerd. Het lectoraat benadrukt dat waardecreatie structurele inbedding vereist — niet projectmatig denken. Fase 8 is dan ook de directe vertaling van het lectoraatsonderzoek naar de praktijk van Puma.</p>
+    </div>
+    <div class="modal-section"><div class="modal-section-label">Tags</div><span class="modal-tag">CULTUUR</span><span class="modal-tag">BORGING</span><span class="modal-tag">PUMA DNA</span></div>`
+  }
+];
+
+function openModal(i) {
+  currentPhase = i;
+  renderModal();
+  document.getElementById('modalOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  document.getElementById('modal').scrollTop = 0;
+}
+
+function renderModal() {
+  const p = phases[currentPhase];
+  document.getElementById('mNum').textContent = p.num;
+  document.getElementById('mName').innerHTML = p.name;
+  document.getElementById('mProgress').style.width = p.progress + '%';
+  document.getElementById('mBody').innerHTML = p.body;
+  document.getElementById('navCounter').textContent = (currentPhase+1) + ' / ' + phases.length;
+  document.getElementById('btnPrev').disabled = currentPhase === 0;
+  document.getElementById('btnNext').disabled = currentPhase === phases.length - 1;
+  document.getElementById('modal').scrollTop = 0;
+}
+
+function navigate(dir) {
+  const next = currentPhase + dir;
+  if (next >= 0 && next < phases.length) {
+    currentPhase = next;
+    renderModal();
+  }
+}
+
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function closeIfOutside(e) {
+  if (e.target === document.getElementById('modalOverlay')) closeModal();
+}
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeModal();
+  if (e.key === 'ArrowRight') navigate(1);
+  if (e.key === 'ArrowLeft') navigate(-1);
+});
+</script>
+</body>
+</html>
