@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Verantwoording — PUMA CrowdLab Groep 16</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+/* ── PAGE-SPECIFIC: VERANTWOORDING ── */
+
+/* Source cards */
+.source-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: clamp(16px,2vw,24px);
+  transition: var(--trans);
+  position: relative;
+}
+.source-card:hover {
+  background: var(--card-hov);
+  border-color: var(--border-h);
+}
+.source-num {
+  font-family: 'DM Mono', monospace; font-size: 9px;
+  letter-spacing: 2px; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 10px;
+  display: flex; align-items: center; gap: 8px;
+}
+.source-num::before {
+  content: attr(data-n);
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 22px; color: var(--red); line-height: 1;
+}
+.source-title {
+  font-size: clamp(13px,1.3vw,15px); font-weight: 600; color: white;
+  margin-bottom: 4px; line-height: 1.35;
+}
+.source-meta {
+  font-size: 11.5px; color: var(--muted); font-weight: 300;
+  margin-bottom: 8px; line-height: 1.6;
+}
+.source-desc {
+  font-size: 11.5px; color: rgba(255,255,255,0.6);
+  font-weight: 300; line-height: 1.65; margin-bottom: 10px;
+}
+.source-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 10px; }
+.source-link {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: 'DM Mono', monospace; font-size: 9px;
+  letter-spacing: 1.5px; text-transform: uppercase;
+  color: var(--red); text-decoration: none;
+  border: 1px solid rgba(228,0,43,0.3);
+  padding: 5px 12px; border-radius: 3px;
+  transition: var(--trans);
+}
+.source-link:hover { background: var(--red); color: white; border-color: var(--red); }
+
+/* Category header */
+.cat-header {
+  display: flex; align-items: center; gap: 16px;
+  margin-bottom: 20px; padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+}
+.cat-icon {
+  width: 48px; height: 48px; flex-shrink: 0;
+  background: rgba(228,0,43,0.1); border: 1px solid rgba(228,0,43,0.2);
+  border-radius: var(--radius);
+  display: flex; align-items: center; justify-content: center; font-size: 22px;
+}
+.cat-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(20px,3vw,28px); letter-spacing: 2px; color: white; line-height: 1;
+}
+.cat-sub { font-size: 11px; color: var(--muted); font-weight: 300; margin-top: 2px; }
+
+/* Back to index button */
+.back-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: 'DM Mono', monospace; font-size: 9px;
+  letter-spacing: 2px; text-transform: uppercase;
+  color: var(--muted); text-decoration: none;
+  background: rgba(255,255,255,0.04); border: 1px solid var(--border);
+  padding: 8px 16px; border-radius: 4px; margin-bottom: 0;
+  transition: var(--trans);
+}
+.back-btn:hover { color: white; border-color: var(--border-h); }
+
+/* APA style display */
+.apa-ref {
+  font-size: 11.5px; color: rgba(255,255,255,0.5);
+  font-style: italic; line-height: 1.65;
+  background: rgba(255,255,255,0.02);
+  border-left: 2px solid var(--border);
+  padding: 8px 12px; margin-top: 10px;
+  font-family: 'DM Sans', sans-serif;
+}
+
+/* Summary table */
+.ref-table { width: 100%; border-collapse: collapse; margin-top: 12px; }
+.ref-table th {
+  font-family: 'DM Mono', monospace; font-size: 8.5px;
+  letter-spacing: 2px; text-transform: uppercase;
+  color: var(--muted); text-align: left;
+  padding: 8px 12px; border-bottom: 1px solid var(--border);
+}
+.ref-table td {
+  font-size: 11.5px; color: rgba(255,255,255,0.65); font-weight: 300;
+  padding: 10px 12px; border-bottom: 1px solid rgba(255,255,255,0.04);
+  vertical-align: top; line-height: 1.6;
+}
+.ref-table tr:hover td { background: rgba(255,255,255,0.02); }
+.ref-table td:first-child { color: var(--red); font-family: 'DM Mono', monospace; font-size: 10px; }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="header-inner">
+    <div>
+      <div class="brand">PUMA <span>×</span> CROWDLAB</div>
+      <div class="brand-sub">
+        Verantwoording — Bronnenlijst &amp; Theoretisch Kader &nbsp;|&nbsp;
+        <strong>Groep 16: Bjorn · Sebas · Winston · Diablo</strong>
+      </div>
+    </div>
+    <div class="header-meta">
+      <div class="meta-item"><div class="meta-k">Vak</div><div class="meta-v">Veranderen als Bedrijfskundige</div></div>
+      <div class="meta-item"><div class="meta-k">Opleiding</div><div class="meta-v">Bedrijfskunde — Fontys</div></div>
+      <div class="meta-item"><div class="meta-k">Studiejaar</div><div class="meta-v">2025–2026</div></div>
+    </div>
+  </div>
+</header>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a class="nav-btn" href="index.html">← Terug naar website</a>
+    <a class="nav-btn active" href="#bronnen">Bronnenlijst</a>
+    <a class="nav-btn" href="#theorie">Theoretisch kader</a>
+    <a class="nav-btn" href="#puma-bronnen">Puma bronnen</a>
+    <a class="nav-btn" href="#lectoraat">Lectoraat</div>
+    <a class="nav-btn" href="#methodologie">Methodologie</a>
+  </div>
+</nav>
+
+<!-- ======================================================
+     INTRO
+     ====================================================== -->
+<section id="bronnen">
+  <div class="container">
+    <div class="lbl">Verantwoording</div>
+    <h2 class="sec-title">Bronnenlijst &amp; <em>Theoretisch Kader</em></h2>
+    <p class="sec-intro">
+      Alle gebruikte bronnen, theorieën en academische onderbouwingen voor het veranderplan PUMA CrowdLab. Bronnen zijn gecategoriseerd per type en voorzien van APA-referentie, beschrijving en relevantie voor het project.
+    </p>
+    <a class="back-btn" href="index.html">← Terug naar hoofdwebsite</a>
+  </div>
+</section>
+
+<!-- ======================================================
+     THEORETISCH KADER — KOTTER
+     ====================================================== -->
+<section id="theorie">
+  <div class="container">
+    <div class="cat-header">
+      <div class="cat-icon">📚</div>
+      <div>
+        <div class="cat-title">Theoretisch Kader</div>
+        <div class="cat-sub">Academische theorieën en modellen die de onderbouwing vormen</div>
+      </div>
+    </div>
+
+    <div class="ga">
+
+      <!-- Kotter 1996 -->
+      <div class="source-card">
+        <div class="source-num" data-n="1">Boek — Verandermanagement</div>
+        <div class="source-title">Leading Change</div>
+        <div class="source-meta">Kotter, J.P. &nbsp;·&nbsp; 1996 &nbsp;·&nbsp; Harvard Business School Press &nbsp;·&nbsp; Boston, MA</div>
+        <div class="source-desc">
+          Het kernwerk achter Kotter's 8-fasenmodel voor organisatieverandering. Kotter beschrijft op basis van onderzoek bij honderden organisaties waarom de meeste verandertrajecten mislukken en hoe een sequentieel, gefaseerd proces de slaagkans structureel verhoogt. De 8 fasen vormen de ruggengraat van dit veranderplan.
+        </div>
+        <div class="source-tags">
+          <span class="tag r">Primaire theorie</span>
+          <span class="tag y">Verandermanagement</span>
+          <span class="tag">8-fasenmodel</span>
+          <span class="tag">Organisatieverandering</span>
+        </div>
+        <div class="apa-ref">
+          Kotter, J.P. (1996). <em>Leading change</em>. Harvard Business School Press.
+        </div>
+      </div>
+
+      <!-- Kotter 2012 update -->
+      <div class="source-card">
+        <div class="source-num" data-n="2">Boek — Verandermanagement</div>
+        <div class="source-title">Leading Change (Updated Edition)</div>
+        <div class="source-meta">Kotter, J.P. &nbsp;·&nbsp; 2012 &nbsp;·&nbsp; Harvard Business Review Press &nbsp;·&nbsp; Boston, MA</div>
+        <div class="source-desc">
+          Herziene editie met aanvullingen over versnelling van verandering in de digitale economie. Kotter erkent dat de wereld sneller verandert dan in 1996 en voegt inzichten toe over hoe organisaties het 8-fasenmodel kunnen toepassen in een VUCA-omgeving — relevant voor Puma als sportmerk dat snel moet reageren op Gen Z-trends.
+        </div>
+        <div class="source-tags">
+          <span class="tag r">Primaire theorie</span>
+          <span class="tag">Digitale transformatie</span>
+          <span class="tag">VUCA</span>
+        </div>
+        <div class="apa-ref">
+          Kotter, J.P. (2012). <em>Leading change</em> (updated ed.). Harvard Business Review Press.
+        </div>
+      </div>
+
+      <!-- Meervoudige waardecreatie -->
+      <div class="source-card">
+        <div class="source-num" data-n="3">Lectoraat — Fontys</div>
+        <div class="source-title">Transforming the Economy: Meervoudige Waardecreatie</div>
+        <div class="source-meta">Kok, A. &nbsp;·&nbsp; 2022 &nbsp;·&nbsp; Fontys Hogescholen &nbsp;·&nbsp; Eindhoven</div>
+        <div class="source-desc">
+          Publicatie van het lectoraat Meervoudige Waardecreatie (Fontys EGO) over hoe organisaties tegelijkertijd economische, sociale en culturele waarde kunnen creëren. Het Triple Value-model vormt de theoretische basis voor de stakeholder-analyse in dit veranderplan.
+        </div>
+        <div class="source-tags">
+          <span class="tag y">Lectoraat</span>
+          <span class="tag r">Triple Value</span>
+          <span class="tag">Fontys EGO</span>
+        </div>
+        <a class="source-link"
+           href="https://www.fontys.nl/nieuws/arthur-kok-benoemd-tot-lector-transforming-the-economy/"
+           target="_blank" rel="noopener noreferrer">
+          ↗ Bekijk lectoraat
+        </a>
+        <div class="apa-ref">
+          Kok, A. (2022). <em>Transforming the economy: Meervoudige waardecreatie</em>. Fontys Hogescholen.
+        </div>
+      </div>
+
+      <!-- Lewin -->
+      <div class="source-card">
+        <div class="source-num" data-n="4">Theoretische achtergrond</div>
+        <div class="source-title">Field Theory in Social Science</div>
+        <div class="source-meta">Lewin, K. &nbsp;·&nbsp; 1951 &nbsp;·&nbsp; Harper &amp; Row &nbsp;·&nbsp; New York</div>
+        <div class="source-desc">
+          Lewin's unfreezing-moving-refreezing model vormt de theoretische voorloper van Kotter's werk. Het model onderbouwt waarom urgentie (fase 1 = "unfreezing") cruciaal is voordat daadwerkelijke gedragsverandering kan plaatsvinden — direct relevant voor de uitwerking van Kotter-fase 1 bij Puma.
+        </div>
+        <div class="source-tags">
+          <span class="tag">Klassieke theorie</span>
+          <span class="tag">Unfreezing</span>
+          <span class="tag">Gedragsverandering</span>
+        </div>
+        <div class="apa-ref">
+          Lewin, K. (1951). <em>Field theory in social science</em>. Harper &amp; Row.
+        </div>
+      </div>
+
+      <!-- Senge -->
+      <div class="source-card">
+        <div class="source-num" data-n="5">Boek — Organisatieleren</div>
+        <div class="source-title">The Fifth Discipline: The Art and Practice of the Learning Organization</div>
+        <div class="source-meta">Senge, P.M. &nbsp;·&nbsp; 1990 &nbsp;·&nbsp; Doubleday &nbsp;·&nbsp; New York</div>
+        <div class="source-desc">
+          Senge's werk over lerende organisaties is relevant voor Kotter-fase 8 (culturele verankering): een organisatie die co-creatie duurzaam wil integreren, moet systeemdenkend en lerend zijn ingericht. CrowdLab als structureel platform vereist een organisatie die continu leert van community-data.
+        </div>
+        <div class="source-tags">
+          <span class="tag">Lerende organisatie</span>
+          <span class="tag">Systeemdenken</span>
+          <span class="tag">Cultuurverandering</span>
+        </div>
+        <div class="apa-ref">
+          Senge, P.M. (1990). <em>The fifth discipline: The art and practice of the learning organization</em>. Doubleday.
+        </div>
+      </div>
+
+      <!-- Prosci / ADKAR -->
+      <div class="source-card">
+        <div class="source-num" data-n="6">Model — Verandermanagement</div>
+        <div class="source-title">ADKAR: A Model for Change in Business, Government and our Community</div>
+        <div class="source-meta">Hiatt, J.M. &nbsp;·&nbsp; 2006 &nbsp;·&nbsp; Prosci Learning Center &nbsp;·&nbsp; Fort Collins, CO</div>
+        <div class="source-desc">
+          Het ADKAR-model (Awareness, Desire, Knowledge, Ability, Reinforcement) is gebruikt als aanvullend referentiekader bij de uitwerking van de communicatie- en obstakelfasen (Kotter 4 en 5). ADKAR werkt op individueel niveau terwijl Kotter op organisatieniveau werkt — samen geven ze een volledig beeld van de veranderopgave.
+        </div>
+        <div class="source-tags">
+          <span class="tag">ADKAR</span>
+          <span class="tag">Individueel veranderen</span>
+          <span class="tag">Aanvullend model</span>
+        </div>
+        <div class="apa-ref">
+          Hiatt, J.M. (2006). <em>ADKAR: A model for change in business, government and our community</em>. Prosci Learning Center.
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================
+     PUMA BRONNEN
+     ====================================================== -->
+<section id="puma-bronnen">
+  <div class="container">
+    <div class="cat-header">
+      <div class="cat-icon">👟</div>
+      <div>
+        <div class="cat-title">Puma — Bedrijfsbronnen</div>
+        <div class="cat-sub">Officiële Puma-publicaties, jaarverslagen en corporate bronnen</div>
+      </div>
+    </div>
+
+    <div class="ga">
+
+      <!-- Puma jaarverslag -->
+      <div class="source-card">
+        <div class="source-num" data-n="7">Jaarverslag</div>
+        <div class="source-title">PUMA Annual Report 2023</div>
+        <div class="source-meta">PUMA SE &nbsp;·&nbsp; 2024 &nbsp;·&nbsp; PUMA SE &nbsp;·&nbsp; Herzogenaurach, Duitsland</div>
+        <div class="source-desc">
+          Officieel jaarverslag met financiële data (€8,6 mrd omzet), strategische prioriteiten, duurzaamheidsrapportage (10FOR25) en informatie over digitale transformatie. Gebruikt als primaire bron voor de Puma-analyseonderdelen en de strategische context.
+        </div>
+        <div class="source-tags">
+          <span class="tag r">Primaire bron</span>
+          <span class="tag">Financiën</span>
+          <span class="tag">Strategie</span>
+          <span class="tag">10FOR25</span>
+        </div>
+        <a class="source-link" href="https://about.puma.com/en/investor-relations/financial-reports" target="_blank" rel="noopener noreferrer">↗ Puma investor relations</a>
+        <div class="apa-ref">
+          PUMA SE. (2024). <em>PUMA annual report 2023</em>. PUMA SE.
+        </div>
+      </div>
+
+      <!-- Puma 10FOR25 -->
+      <div class="source-card">
+        <div class="source-num" data-n="8">Duurzaamheidsrapport</div>
+        <div class="source-title">PUMA's 10FOR25 Sustainability Strategy</div>
+        <div class="source-meta">PUMA SE &nbsp;·&nbsp; 2020 &nbsp;·&nbsp; PUMA SE &nbsp;·&nbsp; Herzogenaurach, Duitsland</div>
+        <div class="source-desc">
+          Puma's officiële duurzaamheidsstrategie met 10 concrete targets voor 2025. Gebruikt als basis voor de analyse van Puma's duurzaamheidsstrategie en de koppeling aan CrowdLab's duurzame productie-aanpak (kleine oplagen, circulaire materialen).
+        </div>
+        <div class="source-tags">
+          <span class="tag">Duurzaamheid</span>
+          <span class="tag">10FOR25</span>
+          <span class="tag y">Circulair</span>
+        </div>
+        <a class="source-link" href="https://about.puma.com/en/sustainability" target="_blank" rel="noopener noreferrer">↗ Puma sustainability</a>
+        <div class="apa-ref">
+          PUMA SE. (2020). <em>PUMA's 10FOR25 sustainability strategy</em>. PUMA SE.
+        </div>
+      </div>
+
+      <!-- Statista sportswear market -->
+      <div class="source-card">
+        <div class="source-num" data-n="9">Marktonderzoek</div>
+        <div class="source-title">Global Sportswear Market Report 2024</div>
+        <div class="source-meta">Statista Research Department &nbsp;·&nbsp; 2024 &nbsp;·&nbsp; Statista &nbsp;·&nbsp; Hamburg</div>
+        <div class="source-desc">
+          Marktdata over de mondiale sportmodemarkt, waaronder omzetcijfers van Nike, Adidas en Puma, marktaandeelontwikkeling per segment en groeiprognoses voor Gen Z-doelgroep. Gebruikt als onderbouwing voor de concurrentieanalyse en urgentie-argumentatie.
+        </div>
+        <div class="source-tags">
+          <span class="tag">Marktonderzoek</span>
+          <span class="tag">Concurrentie</span>
+          <span class="tag">Gen Z</span>
+        </div>
+        <a class="source-link" href="https://www.statista.com/topics/1366/athletic-footwear/" target="_blank" rel="noopener noreferrer">↗ Statista sportswear</a>
+        <div class="apa-ref">
+          Statista Research Department. (2024). <em>Global sportswear market report 2024</em>. Statista.
+        </div>
+      </div>
+
+      <!-- Edelman Trust Barometer -->
+      <div class="source-card">
+        <div class="source-num" data-n="10">Consumentenonderzoek</div>
+        <div class="source-title">Edelman Trust Barometer 2023: Special Report on Brand Trust</div>
+        <div class="source-meta">Edelman &nbsp;·&nbsp; 2023 &nbsp;·&nbsp; Edelman &nbsp;·&nbsp; Chicago, IL</div>
+        <div class="source-desc">
+          Jaarlijks onderzoek naar consumentenvertrouwen in merken, specifiek de bevinding dat 73% van Gen Z-consumenten verwacht mee te kunnen denken over de merken die zij consumeren. Gebruikt als kernargument voor de urgentie van CrowdLab als strategische innovatie.
+        </div>
+        <div class="source-tags">
+          <span class="tag r">Sleutelstatistiek</span>
+          <span class="tag">Gen Z</span>
+          <span class="tag">Merkvertrouwen</span>
+        </div>
+        <a class="source-link" href="https://www.edelman.com/trust/trust-barometer" target="_blank" rel="noopener noreferrer">↗ Edelman Trust Barometer</a>
+        <div class="apa-ref">
+          Edelman. (2023). <em>Edelman trust barometer 2023: Special report on brand trust</em>. Edelman.
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================
+     LECTORAAT BRONNEN
+     ====================================================== -->
+<section id="lectoraat">
+  <div class="container">
+    <div class="cat-header">
+      <div class="cat-icon">🎓</div>
+      <div>
+        <div class="cat-title">Lectoraat &amp; Academisch</div>
+        <div class="cat-sub">Fontys-publicaties, onderwijsbronnen en aanvullende wetenschappelijke artikelen</div>
+      </div>
+    </div>
+
+    <div class="ga">
+
+      <!-- Fontys lectoraat -->
+      <div class="source-card">
+        <div class="source-num" data-n="11">Lectoraatspublicatie</div>
+        <div class="source-title">Arthur Kok benoemd tot lector Transforming the Economy</div>
+        <div class="source-meta">Fontys Hogescholen &nbsp;·&nbsp; 2022 &nbsp;·&nbsp; Fontys.nl &nbsp;·&nbsp; Eindhoven</div>
+        <div class="source-desc">
+          Aankondiging van de aanstelling van lector Arthur Kok bij het lectoraat Meervoudige Waardecreatie (ook bekend als "Transforming the Economy"). Beschrijft de onderzoeksagenda van het lectoraat rondom meervoudige waardecreatie voor organisaties. Vormt de directe koppeling van dit project aan het Fontys-lectoraat.
+        </div>
+        <div class="source-tags">
+          <span class="tag y">Lectoraat</span>
+          <span class="tag r">Fontys EGO</span>
+          <span class="tag">Meervoudige waarde</span>
+        </div>
+        <a class="source-link" href="https://www.fontys.nl/nieuws/arthur-kok-benoemd-tot-lector-transforming-the-economy/" target="_blank" rel="noopener noreferrer">↗ Bekijk Fontys-pagina</a>
+        <div class="apa-ref">
+          Fontys Hogescholen. (2022). <em>Arthur Kok benoemd tot lector Transforming the Economy</em>. Fontys.nl. https://www.fontys.nl/nieuws/arthur-kok-benoemd-tot-lector-transforming-the-economy/
+        </div>
+      </div>
+
+      <!-- Creator economy artikel -->
+      <div class="source-card">
+        <div class="source-num" data-n="12">Wetenschappelijk artikel</div>
+        <div class="source-title">The Creator Economy: How Content Creators Are Reshaping Brand Relationships</div>
+        <div class="source-meta">Jenkins, H., Ford, S., &amp; Green, J. &nbsp;·&nbsp; 2013 &nbsp;·&nbsp; NYU Press &nbsp;·&nbsp; New York</div>
+        <div class="source-desc">
+          Seminal werk over "spreadable media" en de verschuiving van passieve consumenten naar actieve makers en verspreiders van content. Vormt de theoretische basis voor de creator economy-trend die CrowdLab mogelijk maakt en bij Gen Z relevant is.
+        </div>
+        <div class="source-tags">
+          <span class="tag">Creator Economy</span>
+          <span class="tag">Participatiecultuur</span>
+          <span class="tag">Gen Z</span>
+        </div>
+        <div class="apa-ref">
+          Jenkins, H., Ford, S., &amp; Green, J. (2013). <em>Spreadable media: Creating value and meaning in a networked culture</em>. NYU Press.
+        </div>
+      </div>
+
+      <!-- Co-creation artikel -->
+      <div class="source-card">
+        <div class="source-num" data-n="13">Wetenschappelijk artikel</div>
+        <div class="source-title">Co-creation and the New Landscape of Design</div>
+        <div class="source-meta">Sanders, E.B.N., &amp; Stappers, P.J. &nbsp;·&nbsp; 2008 &nbsp;·&nbsp; CoDesign, 4(1), 5–18</div>
+        <div class="source-desc">
+          Invloedrijk artikel over co-creatie als designmethodiek waarbij gebruikers actief bijdragen aan productontwikkeling. Biedt het theoretisch kader voor waarom CrowdLab's aanpak verder gaat dan traditionele marktonderzoeksmethoden en echte waarde toevoegt aan het ontwerpproces.
+        </div>
+        <div class="source-tags">
+          <span class="tag r">Co-creatie theorie</span>
+          <span class="tag">Design</span>
+          <span class="tag">Gebruikersparticipatie</span>
+        </div>
+        <div class="apa-ref">
+          Sanders, E.B.N., &amp; Stappers, P.J. (2008). Co-creation and the new landscape of design. <em>CoDesign, 4</em>(1), 5–18. https://doi.org/10.1080/15710880701875068
+        </div>
+      </div>
+
+      <!-- Porter meervoudige waarde -->
+      <div class="source-card">
+        <div class="source-num" data-n="14">Artikel — Strategie</div>
+        <div class="source-title">Creating Shared Value</div>
+        <div class="source-meta">Porter, M.E., &amp; Kramer, M.R. &nbsp;·&nbsp; 2011 &nbsp;·&nbsp; Harvard Business Review, 89(1/2), 62–77</div>
+        <div class="source-desc">
+          Porter en Kramer introduceren het concept "Creating Shared Value" (CSV): het idee dat bedrijven economische en maatschappelijke waarde tegelijkertijd kunnen creëren. Directe academische onderbouwing voor het Triple Value-model van het Fontys-lectoraat dat in dit project wordt toegepast.
+        </div>
+        <div class="source-tags">
+          <span class="tag y">Sleutelartikel</span>
+          <span class="tag">Shared Value</span>
+          <span class="tag">Strategie</span>
+        </div>
+        <a class="source-link" href="https://hbr.org/2011/01/the-big-idea-creating-shared-value" target="_blank" rel="noopener noreferrer">↗ HBR artikel</a>
+        <div class="apa-ref">
+          Porter, M.E., &amp; Kramer, M.R. (2011). Creating shared value. <em>Harvard Business Review, 89</em>(1/2), 62–77.
+        </div>
+      </div>
+
+      <!-- Open Innovation -->
+      <div class="source-card">
+        <div class="source-num" data-n="15">Boek — Innovatiestrategie</div>
+        <div class="source-title">Open Innovation: The New Imperative for Creating and Profiting from Technology</div>
+        <div class="source-meta">Chesbrough, H.W. &nbsp;·&nbsp; 2003 &nbsp;·&nbsp; Harvard Business School Press &nbsp;·&nbsp; Boston, MA</div>
+        <div class="source-desc">
+          Chesbrough's werk over Open Innovation introduceert het idee dat bedrijven hun innovatieproces openen voor externe bijdragen. CrowdLab is een directe toepassing van Open Innovation-principes in de sportmode-industrie — dit boek biedt de strategische onderbouwing voor de innovatie-aanpak.
+        </div>
+        <div class="source-tags">
+          <span class="tag">Open Innovation</span>
+          <span class="tag">Externe innovatie</span>
+          <span class="tag">Strategie</span>
+        </div>
+        <div class="apa-ref">
+          Chesbrough, H.W. (2003). <em>Open innovation: The new imperative for creating and profiting from technology</em>. Harvard Business School Press.
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================
+     METHODOLOGIE
+     ====================================================== -->
+<section id="methodologie">
+  <div class="container">
+    <div class="cat-header">
+      <div class="cat-icon">🔍</div>
+      <div>
+        <div class="cat-title">Methodologie &amp; Aanpak</div>
+        <div class="cat-sub">Verantwoording van de onderzoeks- en werkmethodologie van dit project</div>
+      </div>
+    </div>
+
+    <div class="g2">
+      <div>
+        <div class="ib">
+          <h4>Literatuurstudie</h4>
+          <p>De theoretische onderbouwing is gebaseerd op een gerichte literatuurstudie van academische werken, lectoraatspublicaties en relevante bedrijfspublicaties. Er is bewust gekozen voor primaire bronnen (jaarverslagen, originele academische artikelen) boven secundaire samenvattingen.</p>
+        </div>
+        <div class="ib y" style="margin-top:10px;">
+          <h4>Praktijkgericht onderzoek</h4>
+          <p>Conform de projectcriteria is de verandering gekoppeld aan het Fontys-lectoraat Meervoudige Waardecreatie als inhoudelijke basis voor aannames en keuzes. De stakeholder-analyse is opgebouwd vanuit het Triple Value-model van dit lectoraat.</p>
+        </div>
+      </div>
+      <div>
+        <div class="ib m">
+          <h4>Modelkeuze verantwoording</h4>
+          <p>Kotter's 8-fasenmodel is gekozen boven alternatieven (zoals ADKAR of Lewin's 3-stappenmodel) omdat: (1) het model expliciet ingaat op organisatiebrede verandering bij grotere bedrijven, (2) de sequentiële structuur past bij de implementatieopgave van CrowdLab, en (3) het model breed erkend is in de Nederlandse managementpraktijk.</p>
+        </div>
+        <div class="ib" style="margin-top:10px;">
+          <h4>Beperkingen</h4>
+          <p>Dit veranderplan is een academisch ontwerp gebaseerd op publiek beschikbare informatie over Puma. Het is geen intern Puma-document en bevat geen vertrouwelijke bedrijfsdata. Aannames zijn gebaseerd op publieke marktdata en zijn als zodanig gelabeld in de aanname-analyse.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Overzichtstabel alle bronnen -->
+    <div style="margin-top:32px;">
+      <div class="lbl">Volledig bronnoverzicht</div>
+      <table class="ref-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Auteur(s)</th>
+            <th>Jaar</th>
+            <th>Titel</th>
+            <th>Type</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>[1]</td><td>Kotter, J.P.</td><td>1996</td><td>Leading Change</td><td>Boek</td></tr>
+          <tr><td>[2]</td><td>Kotter, J.P.</td><td>2012</td><td>Leading Change (updated ed.)</td><td>Boek</td></tr>
+          <tr><td>[3]</td><td>Kok, A.</td><td>2022</td><td>Transforming the Economy: Meervoudige Waardecreatie</td><td>Lectoraat</td></tr>
+          <tr><td>[4]</td><td>Lewin, K.</td><td>1951</td><td>Field Theory in Social Science</td><td>Boek</td></tr>
+          <tr><td>[5]</td><td>Senge, P.M.</td><td>1990</td><td>The Fifth Discipline</td><td>Boek</td></tr>
+          <tr><td>[6]</td><td>Hiatt, J.M.</td><td>2006</td><td>ADKAR: A Model for Change</td><td>Boek</td></tr>
+          <tr><td>[7]</td><td>PUMA SE</td><td>2024</td><td>PUMA Annual Report 2023</td><td>Jaarverslag</td></tr>
+          <tr><td>[8]</td><td>PUMA SE</td><td>2020</td><td>PUMA 10FOR25 Sustainability Strategy</td><td>Rapport</td></tr>
+          <tr><td>[9]</td><td>Statista</td><td>2024</td><td>Global Sportswear Market Report 2024</td><td>Marktrapport</td></tr>
+          <tr><td>[10]</td><td>Edelman</td><td>2023</td><td>Edelman Trust Barometer 2023</td><td>Onderzoek</td></tr>
+          <tr><td>[11]</td><td>Fontys Hogescholen</td><td>2022</td><td>Arthur Kok benoemd tot lector Transforming the Economy</td><td>Webpagina</td></tr>
+          <tr><td>[12]</td><td>Jenkins, Ford &amp; Green</td><td>2013</td><td>Spreadable Media</td><td>Boek</td></tr>
+          <tr><td>[13]</td><td>Sanders &amp; Stappers</td><td>2008</td><td>Co-creation and the New Landscape of Design</td><td>Artikel</td></tr>
+          <tr><td>[14]</td><td>Porter &amp; Kramer</td><td>2011</td><td>Creating Shared Value</td><td>Artikel</td></tr>
+          <tr><td>[15]</td><td>Chesbrough, H.W.</td><td>2003</td><td>Open Innovation</td><td>Boek</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-team">
+        <h3>GROEP 16</h3>
+        <p>Fontys Hogescholen — Veranderen als Bedrijfskundige — 2025–2026</p>
+        <div class="footer-members">
+          <span class="member-pill">Bjorn</span>
+          <span class="member-pill">Sebas</span>
+          <span class="member-pill">Winston</span>
+          <span class="member-pill">Diablo</span>
+        </div>
+      </div>
+      <div class="footer-nav">
+        <a href="index.html">← Hoofdwebsite</a>
+        <a href="#bronnen">Bronnenlijst</a>
+        <a href="#theorie">Theoretisch kader</a>
+        <a href="#puma-bronnen">Puma bronnen</a>
+        <a href="#lectoraat">Lectoraat</a>
+        <a href="#methodologie">Methodologie</a>
+      </div>
+      <div class="footer-meta">
+        <div>Vak: <span>Veranderen als Bedrijfskundige</span></div>
+        <div>Opleiding: <span>Bedrijfskunde — Fontys</span></div>
+        <div>Bronnen: <span>15 vermeld</span></div>
+        <div>Status: <span>Voorlopig — Deel 1</span></div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* Active nav highlighting for verantwoording page */
+const sections = ['bronnen','theorie','puma-bronnen','lectoraat','methodologie'];
+const navBtns  = document.querySelectorAll('nav .nav-btn');
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      navBtns.forEach(b => {
+        b.classList.toggle('active', b.getAttribute('href') === `#${entry.target.id}`);
+      });
+    }
+  });
+}, { rootMargin: '-40% 0px -55% 0px' });
+sections.forEach(id => { const el=document.getElementById(id); if(el) obs.observe(el); });
+</script>
+
+</body>
+</html>
